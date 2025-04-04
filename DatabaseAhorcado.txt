@@ -1,0 +1,84 @@
+CREATE DATABASE AhorcadoDB;
+USE AhorcadoDB;
+
+CREATE TABLE Usuario (
+    idUsuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE Administrador (
+    idAdmin INT AUTO_INCREMENT PRIMARY KEY,
+    idUsuario INT,
+    nivel INT DEFAULT 1,
+    FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE CASCADE
+);
+
+CREATE TABLE Jugador (
+    idJugador INT AUTO_INCREMENT PRIMARY KEY,
+    idUsuario INT,
+    puntuacion INT DEFAULT 0,
+    FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE CASCADE
+);
+
+CREATE TABLE Cuota (
+    idCuota INT AUTO_INCREMENT PRIMARY KEY,
+    descripcion VARCHAR(255)
+);
+
+CREATE TABLE Jugador_Cuota (
+    idJugador INT,
+    idCuota INT,
+    PRIMARY KEY (idJugador, idCuota),
+    FOREIGN KEY (idJugador) REFERENCES Jugador(idJugador) ON DELETE CASCADE,
+    FOREIGN KEY (idCuota) REFERENCES Cuota(idCuota) ON DELETE CASCADE
+);
+
+CREATE TABLE Juego (
+    idJuego INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Idioma (
+    idIdioma INT AUTO_INCREMENT PRIMARY KEY,
+    idJuego INT,
+    nombre VARCHAR(50) NOT NULL,
+    FOREIGN KEY (idJuego) REFERENCES Juego(idJuego) ON DELETE CASCADE
+);
+
+CREATE TABLE Partida (
+    idPartida INT AUTO_INCREMENT PRIMARY KEY,
+    idJugador INT,
+    idJuego INT,
+    resultado VARCHAR(20),
+    FOREIGN KEY (idJugador) REFERENCES Jugador(idJugador) ON DELETE CASCADE,
+    FOREIGN KEY (idJuego) REFERENCES Juego(idJuego) ON DELETE CASCADE
+);
+
+CREATE TABLE PalabraFrase (
+    idPalabra INT AUTO_INCREMENT PRIMARY KEY,
+    texto VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Palabras_Idioma (
+    idPalabra INT,
+    idIdioma INT,
+    PRIMARY KEY (idPalabra, idIdioma),
+    FOREIGN KEY (idPalabra) REFERENCES PalabraFrase(idPalabra) ON DELETE CASCADE,
+    FOREIGN KEY (idIdioma) REFERENCES Idioma(idIdioma) ON DELETE CASCADE
+);
+
+CREATE TABLE Sinonimo (
+    idPalabra1 INT,
+    idPalabra2 INT,
+    PRIMARY KEY (idPalabra1, idPalabra2),
+    FOREIGN KEY (idPalabra1) REFERENCES PalabraFrase(idPalabra) ON DELETE CASCADE,
+    FOREIGN KEY (idPalabra2) REFERENCES PalabraFrase(idPalabra) ON DELETE CASCADE
+);
+
+CREATE TABLE Historico (
+    idHistorico INT AUTO_INCREMENT PRIMARY KEY,
+    idPalabra INT,
+    fecha DATE NOT NULL,
+    FOREIGN KEY (idPalabra) REFERENCES PalabraFrase(idPalabra) ON DELETE CASCADE
+);

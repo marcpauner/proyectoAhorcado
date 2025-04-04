@@ -1,0 +1,83 @@
+Entidades principales:
+1. Usuario
+2. Juego
+3. Partida
+4. Idioma
+5. Palabra
+6. Frase
+7. Cuota
+8. Histórico
+9. DibujoAhorcado
+
+Relaciones entre entidades:
+• Un usuario puede participar en varios juegos, y un juego tiene varios Usuarios → Relación Participa.
+• Un juego tiene varias partidas y cada partida pertenece a un único juego → Relación tiene.
+• Un usuario tiene una cuota (normal o premium) → Relación Suscribirse.
+• Una partida tiene una palabra o una frase que adivinar → Relación Incluye.
+• Cada palabra y frase pertenecen a un idioma → Relación Pertenece.
+• Se registra qué partes del dibujo del ahorcado se han mostrado en cada Partida → Relación Muestra.
+
+Atributos de cada entidad:
+
+1. Usuario (Jugadores y Administradores)
+
+· id_usuario (PK)
+· nombre
+· apellidos
+· tipo_usuario (Jugador/Administrador)
+· nivel_administracion (Solo para administradores)
+
+2. Juego
+
+· id_juego (PK)
+· num_jugadores
+· num_partidas
+· fecha
+
+3. Partida
+
+· id_partida (PK)
+· id_juego (FK)
+· id_usuario (FK)
+· fecha_hora
+· puntos_obtenidos
+
+4. Idioma
+
+·id_idioma (PK)
+· nombre
+
+5. Palabra
+
+· id_palabra (PK)
+· contenido
+· tipo (nombre, adjetivo, etc.)
+· nivel_dificultad
+· id_idioma (FK)
+
+6. Frase
+
+· id_frase (PK)
+· contenido
+· descripcion
+·id_idioma (FK)
+
+7. Cuota
+
+· id_cuota (PK)
+· tipo_cuota (Normal/Premium)
+· importe
+
+8. DibujoAhorcado
+
+· id_dibujo (PK)
+· id_partida (FK)
+· partes_mostradas
+
+9. Histórico
+
+· id_historico (PK)
+· tipo_dato (palabra, frase, partida, etc.)
+· contenido_guardado
+· fecha_registro
+
